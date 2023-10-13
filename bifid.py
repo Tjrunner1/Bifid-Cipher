@@ -27,7 +27,8 @@ def main():
         print("Enter message to be decoded")
         message = input()
         
-        decode(message)
+        decodedMsg = decode(message)
+        print(decodedMsg)
         print("Finished decoding")
     else:
         print("Command didn't work, terminating program")
@@ -59,6 +60,12 @@ def decode(message):
     unshuffledCoords = period_unshuffle(coords, period)
     print(unshuffledCoords)
     
+    # Turn back to letters 
+    encodedMessage = coords_to_letters(unshuffledCoords, period)
+    print(encodedMessage)
+    
+    return encodedMessage.replace(" ", "")
+    
              
 def coords_to_letters(encodedNumbers, period):
     encodedMessage = ""
@@ -72,8 +79,6 @@ def coords_to_letters(encodedNumbers, period):
 
     return encodedMessage
         
-    
-   
 def convert_to_coords(message):
     encodedNumbers = []
     
@@ -92,7 +97,27 @@ def convert_to_coords(message):
     return encodedNumbers
 
 def period_unshuffle(coords, period):
-    pass
+    encodedMessage = []
+    
+    while len(coords) != 0:
+        cutList = []
+        for i in range(period):
+            try:
+                cutList.append(coords.pop(0))
+                cutList.append(coords.pop(0))
+            except:
+                pass
+        encodedMessage += uncombine_numbers(cutList)
+        
+    return encodedMessage
+
+def uncombine_numbers(encodedNumbers):
+    smushedNumbers = []
+    for i in range(len(encodedNumbers)//2):
+        smushedNumbers.append(encodedNumbers[i])
+        smushedNumbers.append(encodedNumbers[len(encodedNumbers)//2 + i])
+        
+    return smushedNumbers
  
 def period_shuffle(coords, period):
     encodedMessage = []
@@ -116,7 +141,6 @@ def combine_numbers(encodedNumbers):
     for i in range(1, len(encodedNumbers), 2):
         smushedNumbers.append(encodedNumbers[i])
     return smushedNumbers
-  
         
 if __name__=="__main__": 
     main()
