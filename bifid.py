@@ -1,13 +1,12 @@
 
 
-polybiusSquare = [["P", "O", "L", "Y", "B"],
-                  ["I", "U", "S", "C", "H"],
-                  ["E", "R", "A", "D", "F"],
-                  ["G", "K", "M", "N", "Q"],
-                  ["T", "V", "W", "X", "Z"]]
-
+alphaList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+polybiusSquare = []
 
 def main():
+    print("Please enter the square's key: ")
+    key = input()
+    makeSquare(key)
     print("Enter encode or decode for your message")
     cmd = input()
     if (cmd == "encode"):
@@ -32,6 +31,31 @@ def main():
         print("Finished decoding")
     else:
         print("Command didn't work, terminating program")
+
+def makeSquare(key):
+    key = key.upper()
+    rowOfFive = []
+    for c in key:
+        if c in alphaList:
+            alphaList.remove(c)
+            rowOfFive.append(c)
+        else:
+            pass
+
+        if len(rowOfFive) == 5:
+            polybiusSquare.append(rowOfFive)
+            rowOfFive = []
+
+    for c in alphaList:
+        rowOfFive.append(c)
+
+        if len(rowOfFive) == 5:
+            polybiusSquare.append(rowOfFive)
+            rowOfFive = []
+    #print(polybiusSquare)
+    return
+    
+        
 
 def encode(message, period):
     # Convert to coordiantes
