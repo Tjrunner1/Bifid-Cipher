@@ -9,15 +9,15 @@ def main():
     makeSquare(key)
     print("Enter encode or decode for your message")
     cmd = input()
+    print("Enter period")
+    period = input()
+    try:
+        period = int(period)
+    except:
+        period = 1
     if (cmd == "encode"):
         print("Enter message to be encoded")
         message = input()
-        print("Enter period")
-        period = input()
-        try:
-            period = int(period)
-        except:
-            period = 1
         
         encodedMsg = encode(message, period)
         print(encodedMsg)
@@ -26,7 +26,7 @@ def main():
         print("Enter message to be decoded")
         message = input()
         
-        decodedMsg = decode(message)
+        decodedMsg = decode(message, period)
         print(decodedMsg)
         print("Finished decoding")
     else:
@@ -55,7 +55,7 @@ def makeSquare(key):
         if len(rowOfFive) == 5:
             polybiusSquare.append(rowOfFive)
             rowOfFive = []
-    #print(polybiusSquare)
+            
     return
     
         
@@ -63,35 +63,26 @@ def makeSquare(key):
 def encode(message, period):
     # Convert to coordiantes
     coords = convert_to_coords(message)
-    # print(coords)
     
     # Shuffle based on period
     encodedNumbers = period_shuffle(coords, period)
-    # print(encodedNumbers)
     
     # Turn back into letters
     encodedMessage = coords_to_letters(encodedNumbers, period)
-    # print(encodedMessage)
     
     return encodedMessage
 
-def decode(message):
-    # Calculate the period
-    period = len(message.split(" ", 1)[0])
-    
+def decode(message, period):
     # Convert to coordinates
     coords = convert_to_coords(message)
-    print(coords)
     
     # Unshuffle the coordinates
     unshuffledCoords = period_unshuffle(coords, period)
-    print(unshuffledCoords)
     
     # Turn back to letters 
     encodedMessage = coords_to_letters(unshuffledCoords, period)
-    print(encodedMessage)
     
-    return encodedMessage.replace(" ", "")
+    return encodedMessage
     
              
 def coords_to_letters(encodedNumbers, period):
@@ -100,8 +91,6 @@ def coords_to_letters(encodedNumbers, period):
     for i in range(len(encodedNumbers)//2):
         row = encodedNumbers.pop(0)
         col = encodedNumbers.pop(0)
-        if i % period == 0 and i != 0:
-            encodedMessage += " "
         encodedMessage += polybiusSquare[row][col]
 
     return encodedMessage
