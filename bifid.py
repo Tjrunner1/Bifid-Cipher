@@ -36,6 +36,9 @@ def makeSquare(key):
     key = key.upper()
     rowOfFive = []
     for c in key:
+        if c=="J":
+            c="I"
+
         if c in alphaList:
             alphaList.remove(c)
             rowOfFive.append(c)
